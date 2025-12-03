@@ -43,4 +43,12 @@ export class BuyerData {
             email: this.email
         }
     }
+
+    clearData(): void {
+        this.payment = null;
+        this.address = null;
+        this.phone = null;
+        this.email = null;
+    }
+
 }
