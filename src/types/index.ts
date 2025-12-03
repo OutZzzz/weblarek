@@ -17,8 +17,8 @@ export interface IProduct {
 }
 
 export interface IBuyer {
-  payment: TPayment;
-  email: string;
-  phone: string;
-  address: string;
+  payment: TPayment | null;
+  email: string | null;
+  phone: string | null;
+  address: string | null;
 }
