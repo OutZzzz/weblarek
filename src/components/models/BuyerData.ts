@@ -1,17 +1,16 @@
-import { IBuyer, TPayment } from "../../types";
-
+import { IBuyer, TPayment, ValidationErrors } from "../../types";
 
 export class BuyerData {
-    private payment: TPayment | null;
-    private address: string | null;
-    private phone: string | null;
-    private email: string | null;
+    private payment: TPayment;
+    private address: string;
+    private phone: string;
+    private email: string;
     
     constructor(
-        payment: TPayment | null = null,
-        address: string | null = null,
-        phone: string | null = null,
-        email: string | null = null
+        payment: TPayment = '',
+        address: string = '',
+        phone: string = '',
+        email: string = ''
     ) {
         this.payment = payment;
         this.address = address;
@@ -45,10 +44,26 @@ export class BuyerData {
     }
 
     clearData(): void {
-        this.payment = null;
-        this.address = null;
-        this.phone = null;
-        this.email = null;
+        this.payment = '';
+        this.address = '';
+        this.phone = '';
+        this.email = '';
     }
 
+    validateData(): ValidationErrors {
+        const errors: ValidationErrors = {};
+        if (this.payment === '') {
+            errors.payment = 'Выберите способ оплаты'
+        }
+        if (this.address === '') {
+            errors.address = 'Введите адрес'
+        }
+        if (this.phone === '') {
+            errors.phone = 'Введите телефон'
+        }
+        if (this.email === '') {
+            errors.email = 'Введите email'
+        }
+        return errors
+    }
 }
