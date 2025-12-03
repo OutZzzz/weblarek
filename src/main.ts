@@ -1,3 +1,4 @@
+import { BuyerData } from './components/models/BuyerData';
 import { Cart } from './components/models/Cart';
 import { Catalog } from './components/models/catalog';
 import './scss/styles.scss';
@@ -27,9 +28,23 @@ console.log('Продукты в корзине после удаления: ', 
 
 productCart.addItem(apiProducts.items[1]);
 productCart.addItem(apiProducts.items[0]);
+
 console.log('Продукты в корзине: ', productCart.getCartItems())
 console.log('Сумма продуктов в корзине: ', productCart.getAllPrices())
 console.log('Проверка наличия товара в корзине по id: ', productCart.checkItemExist('b06cde61-912f-4663-9751-09956c0eed67'))
 console.log('Проверка наличия товара в корзине по id: ', productCart.checkItemExist('c101ab44-ed99-4a54-990d-47aa2bb4e7d9'))
+
 productCart.clearCart();
 console.log('Продукты в корзине после очистки корзины: ', productCart.getCartItems())
+
+
+const buyer = new BuyerData();
+
+console.log('Данные пользователя: ', buyer.getAllData())
+
+buyer.savePayment('card')
+buyer.saveAddress('Moscow')
+buyer.savePhone('12341234124')
+buyer.saveEmail('test@test.test')
+
+console.log('Данные пользователя: ', buyer.getAllData())
