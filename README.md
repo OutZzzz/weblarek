@@ -169,10 +169,10 @@ Presenter - презентер содержит основную логику п
 `email: string` - email.
 
 Методы:  
-`savePayment(data: TPayment): void` - сохранение данных об оплате в модели, в параметр принимает одно из трех значений.
-`saveAddress(data: string): void` - сохранение данных об адресе в модели.
-`savePhone(data: string): void` - сохранение данных об телефоне в модели.
-`saveEmail(data: string): void` - сохранение данных об email в модели.
+`savePayment(data: TPayment): void` - сохранение данных об оплате в модели, в параметр принимает одно из трех значений.  
+`saveAddress(data: string): void` - сохранение данных об адресе в модели.  
+`savePhone(data: string): void` - сохранение данных об телефоне в модели.  
+`saveEmail(data: string): void` - сохранение данных об email в модели.  
 `getAllData(): IBuyer` - получение всех данных покупателя.  
 `clearData(): void` - очистка данных покупателя.  
 `validateData(data: IBuyer): boolean` - валидация данных. Поле является валидным, если оно не пустое. Метод проверяет валидность и предоставляет информацию в случае ошибки.  
