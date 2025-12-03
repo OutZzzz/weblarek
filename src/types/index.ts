@@ -22,3 +22,10 @@ export interface IBuyer {
   phone: string | null;
   address: string | null;
 }
+
+export type ValidationErrors = {
+  payment?: string;
+  email?: string;
+  phone?: string;
+  address?: string;
+}
