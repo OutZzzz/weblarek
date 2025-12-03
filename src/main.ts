@@ -41,10 +41,19 @@ console.log('Продукты в корзине после очистки кор
 const buyer = new BuyerData();
 
 console.log('Данные пользователя: ', buyer.getAllData())
+console.log('Валидация данных:', buyer.validateData())
 
 buyer.savePayment('card')
+console.log('Валидация данных:', buyer.validateData())
+
 buyer.saveAddress('Moscow')
+console.log('Валидация данных:', buyer.validateData())
+
 buyer.savePhone('12341234124')
+console.log('Валидация данных:', buyer.validateData())
+
 buyer.saveEmail('test@test.test')
+console.log('Валидация данных:', buyer.validateData())
 
 console.log('Данные пользователя: ', buyer.getAllData())
+
