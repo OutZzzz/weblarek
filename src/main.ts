@@ -10,8 +10,16 @@ import { API_URL } from './utils/constants';
 
 const productModel = new Catalog();
 
-productModel.setCatalogItems(apiProducts.items);
+// Данные с сервера
 
+const api = new Api(API_URL)
+const serverData = new Queryes(api)
+serverData.getQuery().then(data => {productModel.setCatalogItems(data.items)}).catch(error => console.error('Произошла ошибка: ', error))
+console.log('Данные с сервера: ', productModel.getCatalogItems())
+
+// Локальные данные
+
+productModel.setCatalogItems(apiProducts.items);
 console.log('Массив товаров из каталога: ', productModel.getCatalogItems())
 console.log('Выбранный товар из массива если не выбран: ', productModel.getItemData())
 
@@ -61,7 +69,4 @@ console.log('Валидация данных:', buyer.validateData())
 
 console.log('Данные пользователя: ', buyer.getAllData())
 
-const api = new Api(API_URL)
-const serverData = new Queryes(api)
 
-console.log('Данные с сервера: ', serverData.getQuery())
