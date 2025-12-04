@@ -17,10 +17,10 @@ export interface IProduct {
 }
 
 export interface IBuyer {
-  payment: TPayment | null;
-  email: string | null;
-  phone: string | null;
-  address: string | null;
+  payment: TPayment;
+  email: string;
+  phone: string;
+  address: string;
 }
 
 export type ValidationErrors = {
@@ -28,4 +28,16 @@ export type ValidationErrors = {
   email?: string;
   phone?: string;
   address?: string;
+}
+
+type TotalRecords = {
+  total: number;
+}
+
+export type IProductResponse = TotalRecords & {
+  items: IProduct[];
+}
+
+export type OrderResponse = TotalRecords & {
+  id: string;
 }
