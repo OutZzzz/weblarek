@@ -1,11 +1,9 @@
-import { IBuyer, IProductResponse, OrderResponse } from "../../types";
-import { Api } from "../base/Api";
+import { IBuyer, IProductResponse, OrderResponse, IApi } from "../../types";
 
 export class Queryes {
-    private api: Api;
 
-    constructor(api: Api) {
-        this.api = api
+    constructor(private api: IApi) {
+        this.api = api;
     }
 
     async getQuery(): Promise<IProductResponse> {
