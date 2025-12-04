@@ -9,8 +9,7 @@ export class Queryes {
     }
 
     async getQuery(): Promise<IProductResponse> {
-        const data = await this.api.get<IProductResponse>('/product/');
-        return data
+        return await this.api.get<IProductResponse>('/product/');
     }
 
     async postQuery(order: IBuyer): Promise<OrderResponse> {
