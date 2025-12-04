@@ -1,22 +1,12 @@
 import { IBuyer, TPayment, ValidationErrors } from "../../types";
 
 export class BuyerData {
-    private payment: TPayment;
-    private address: string;
-    private phone: string;
-    private email: string;
+    private payment: TPayment = '';
+    private address: string = '';
+    private phone: string = '';
+    private email: string = '';
     
-    constructor(
-        payment: TPayment = '',
-        address: string = '',
-        phone: string = '',
-        email: string = ''
-    ) {
-        this.payment = payment;
-        this.address = address;
-        this.phone = phone;
-        this.email = email;
-    }
+    constructor() {}
 
     savePayment(data: TPayment): void {
         this.payment = data

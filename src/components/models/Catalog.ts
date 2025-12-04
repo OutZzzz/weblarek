@@ -1,13 +1,10 @@
 import { IProduct } from "../../types";
 
 export class Catalog {
-    private catalogItems: IProduct[];
-    private itemData: IProduct | null;
+    private catalogItems: IProduct[] = [];
+    private itemData: IProduct | null = null;
 
-    constructor(catalogItems: IProduct[] = [], itemData: IProduct | null = null) {
-        this.catalogItems = catalogItems;
-        this.itemData = itemData;
-    }
+    constructor() {}
 
     setCatalogItems(arr: IProduct[]): void {
         this.catalogItems = arr;
