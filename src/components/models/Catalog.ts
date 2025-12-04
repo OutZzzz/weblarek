@@ -23,7 +23,7 @@ export class Catalog {
     }
 
     getItembyID(id: string): IProduct | undefined {
-        const item: IProduct =  this.catalogItems.find((item) => item.id === id) as IProduct;
+        const item: IProduct | undefined = this.catalogItems.find((item) => item.id === id);
         return item
     }
 }
