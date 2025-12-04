@@ -1,19 +1,23 @@
+import { Api } from './components/base/Api';
 import { BuyerData } from './components/models/BuyerData';
 import { Cart } from './components/models/Cart';
-import { Catalog } from './components/models/catalog';
+import { Catalog } from './components/models/Catalog';
+import { Queryes } from './components/models/Queryes';
 import './scss/styles.scss';
 import { apiProducts } from './utils/data';
+import { API_URL } from './utils/constants';
 
 
 const productModel = new Catalog();
 
 productModel.setCatalogItems(apiProducts.items);
-productModel.setItemData(apiProducts.items[0]);
 
 console.log('Массив товаров из каталога: ', productModel.getCatalogItems())
+console.log('Выбранный товар из массива если не выбран: ', productModel.getItemData())
+
+productModel.setItemData(apiProducts.items[0]);
 console.log('Выбранный товар из массива: ', productModel.getItemData())
 console.log('Полученная запись по ИД:', productModel.getItembyID('b06cde61-912f-4663-9751-09956c0eed67'))
-
 
 
 const productCart = new Cart();
@@ -57,3 +61,7 @@ console.log('Валидация данных:', buyer.validateData())
 
 console.log('Данные пользователя: ', buyer.getAllData())
 
+const api = new Api(API_URL)
+const serverData = new Queryes(api)
+
+console.log('Данные с сервера: ', serverData.getQuery())
