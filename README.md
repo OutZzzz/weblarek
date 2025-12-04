@@ -189,6 +189,6 @@ Presenter - презентер содержит основную логику п
 `api: Api;` - Объект класса Api который используется для связи с сервером.
 
 #### Методы
-`async getQuery(): Promise<IProduct[]>` - метод делающий GET запрос и получающий массив данных.
+`async getQuery(): Promise<IProduct[]>` - метод делающий GET запрос и получающий массив данных.  
 `async postQuery(order: IBuyer): Promise<OrderResponse>` - метод отправляющий POST запрос на сервер
 
