@@ -14,8 +14,13 @@ const productModel = new Catalog();
 
 const api = new Api(API_URL)
 const serverData = new Queryes(api)
-serverData.getQuery().then(data => {productModel.setCatalogItems(data.items)}).catch(error => console.error('Произошла ошибка: ', error))
-console.log('Данные с сервера: ', productModel.getCatalogItems())
+serverData.getQuery()
+    .then(data => {
+        productModel.setCatalogItems(data.items);
+        console.log('Данные с сервера: ', productModel.getCatalogItems());
+        })
+    .catch(error => console.error('Произошла ошибка: ', error))
+
 
 // Локальные данные
 
