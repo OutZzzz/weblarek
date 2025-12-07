@@ -34,4 +34,8 @@ export class Cart {
     checkItemExist(id: string): boolean {
        return this.cartItems.some((item) => item.id === id)
     }
+
+    getCartCount(): number {
+    return this.cartItems.length;
+}
 }
