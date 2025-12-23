@@ -6,72 +6,126 @@ import { Queryes } from './components/models/Queryes';
 import './scss/styles.scss';
 import { apiProducts } from './utils/data';
 import { API_URL } from './utils/constants';
+import { CardCatalog } from './components/views/Card/CardCatalog';
+import { cloneTemplate } from './utils/utils';
+import { IHeader, Header } from './components/views/Header';
+import { EventEmitter } from './components/base/Events';
+import { IModal, Modal } from './components/views/Modal';
+import { Gallery } from './components/views/Gallery';
+import { CardPreview } from './components/views/Card/CardPreview';
+import { CardBasket } from './components/views/Card/CardBasket';
+import { Basket } from './components/views/Basket';
 
+
+// Модели данных
 
 const productModel = new Catalog();
+const productCart = new Cart();
+const buyer = new BuyerData();
+
+// Тестовые данные
+
+productCart.addItem({
+    id: '854cef69-976d-4c2a-a18c-2aa45046c390',
+    description: 'Если планируете решать задачи в тренажёре, берите два.',
+    image: '/5_Dots.svg',
+    title: '+1 час в сутках',
+    category: 'софт-скил',
+    price: 750
+})
+
+productCart.addItem({
+    id: 'c101ab44-ed99-4a54-990d-47aa2bb4e7d9',
+    description: 'Лизните этот леденец, чтобы мгновенно запоминать и узнавать любой цветовой код CSS.',
+    image: '/Shell.svg',
+    title: 'HEX-леденец',
+    category: 'другое',
+    price: 1450
+})
+
+
 
 // Данные с сервера
 
 const api = new Api(API_URL)
 const serverData = new Queryes(api)
+
+//Контейнеры для отображения
+
+const galleryContainer = document.querySelector('.gallery')
+const modalContainer = document.getElementById('modal-container')
+const containerHeader = document.querySelector('.header__container')
+const cloneSuccess = cloneTemplate(document.getElementById('success') as HTMLTemplateElement)
+
+
+// Объекты
+
+const events = new EventEmitter()
+
+const gallery = new Gallery(galleryContainer as HTMLElement)
+const header = new Header(events, containerHeader as HTMLElement)
+const modal = new Modal(events, modalContainer as HTMLElement)
+
+
+// События
+header.render({ counter: productCart.getCartCount() })
+
+events.on('modal:close', () => modalContainer?.classList.remove('modal_active'))
+
+events.on('basket:open', () => {
+
+    const orderCards = productCart.getCartItems().map((item, index) => {
+        console.log(item);
+        const basketCard = new CardBasket(
+            cloneTemplate(document.getElementById('card-basket') as HTMLTemplateElement
+        )
+    );
+    /* console.log(basketCard.render({index: ++index, ...item})) */
+    return basketCard.render({index: ++index, ...item});
+    })
+
+    const basket = new Basket(
+        cloneTemplate(
+            document.getElementById('basket') as HTMLTemplateElement
+        )
+    )
+
+    modal.render({
+        content: basket.render({ order: orderCards, totalPrice: productCart.getAllPrices() })
+    })
+    
+    modalContainer?.classList.add('modal_active')
+})
+
+events.on('card:select', (item) => {
+    const preview = new CardPreview(
+        cloneTemplate(
+            document.getElementById('card-preview') as HTMLTemplateElement
+        )
+    );
+    modal.render({
+        content: preview.render(item)
+    });
+
+    console.log(item)
+
+    if (modalContainer) {
+        modalContainer.classList.add('modal_active');
+    }
+})
+
 serverData.getQuery()
     .then(data => {
         productModel.setCatalogItems(data.items);
-        console.log('Данные с сервера: ', productModel.getCatalogItems());
+        const itemCards = productModel.getCatalogItems().map((item) => {
+            const card = new CardCatalog(
+                cloneTemplate(
+                    document.getElementById('card-catalog') as HTMLTemplateElement
+                ), {
+                    onClick: () => events.emit('card:select', item),
+                });
+            return card.render(item);
+        })
+        gallery.render({ catalog: itemCards });
         })
     .catch(error => console.error('Произошла ошибка: ', error))
-
-
-// Локальные данные
-
-productModel.setCatalogItems(apiProducts.items);
-console.log('Массив товаров из каталога: ', productModel.getCatalogItems())
-console.log('Выбранный товар из массива если не выбран: ', productModel.getItemData())
-
-productModel.setItemData(apiProducts.items[0]);
-console.log('Выбранный товар из массива: ', productModel.getItemData())
-console.log('Полученная запись по ИД:', productModel.getItembyID('b06cde61-912f-4663-9751-09956c0eed67'))
-
-
-const productCart = new Cart();
-
-productCart.addItem(apiProducts.items[1]);
-
-console.log('Продукты в корзине: ', productCart.getCartItems())
-
-productCart.removeItem(apiProducts.items[1])
-
-console.log('Продукты в корзине после удаления: ', productCart.getCartItems())
-
-productCart.addItem(apiProducts.items[1]);
-productCart.addItem(apiProducts.items[0]);
-
-console.log('Продукты в корзине: ', productCart.getCartItems())
-console.log('Сумма продуктов в корзине: ', productCart.getAllPrices())
-console.log('Проверка наличия товара в корзине по id: ', productCart.checkItemExist('b06cde61-912f-4663-9751-09956c0eed67'))
-console.log('Проверка наличия товара в корзине по id: ', productCart.checkItemExist('c101ab44-ed99-4a54-990d-47aa2bb4e7d9'))
-
-productCart.clearCart();
-console.log('Продукты в корзине после очистки корзины: ', productCart.getCartItems())
-
-
-const buyer = new BuyerData();
-
-console.log('Данные пользователя: ', buyer.getAllData())
-console.log('Валидация данных:', buyer.validateData())
-
-buyer.savePayment('card')
-console.log('Валидация данных:', buyer.validateData())
-
-buyer.saveAddress('Moscow')
-console.log('Валидация данных:', buyer.validateData())
-
-buyer.savePhone('12341234124')
-console.log('Валидация данных:', buyer.validateData())
-
-buyer.saveEmail('test@test.test')
-console.log('Валидация данных:', buyer.validateData())
-
-console.log('Данные пользователя: ', buyer.getAllData())
-
-
