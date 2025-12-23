@@ -28,7 +28,7 @@ export class Modal extends Component<IModal> {
         });
     }
 
-    set content(data: HTMLTemplateElement) {
+    set content(data: HTMLElement) {
         this.contentElement.replaceChildren(data)
     }
 }
