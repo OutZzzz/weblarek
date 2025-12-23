@@ -1,9 +1,6 @@
+import { ICardActions } from "../../../types";
 import { ensureElement } from "../../../utils/utils";
 import { Card } from "./Card"
-
-interface ICardActions {
-    onClick: () => {}
-}
 
 type TCardBasket = {
     index: number,

@@ -41,3 +41,7 @@ export type IProductResponse = TotalRecords & {
 export type OrderResponse = TotalRecords & {
   id: string;
 }
+
+export interface ICardActions {
+    onClick: () => void
+}

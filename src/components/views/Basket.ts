@@ -1,10 +1,7 @@
-import { IProduct } from "../../types"
+import { ICardActions, IProduct } from "../../types"
 import { ensureElement } from "../../utils/utils";
 import { Component } from "../base/Component";
 
-interface ICardActions {
-    onClick: () => {}
-}
 
 type TBasket = {
     order: HTMLElement[];

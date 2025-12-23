@@ -1,11 +1,8 @@
-import { IProduct } from "../../../types";
+import { ICardActions, IProduct } from "../../../types";
 import { categoryMap } from "../../../utils/constants";
 import { ensureElement } from "../../../utils/utils";
 import { Card } from "./Card";
 
-interface ICardActions {
-    onClick: () => {}
-}
 
 type CategoryKey = keyof typeof categoryMap;
 /* export type TCardCatalog = Pick<IProduct, 'image' | 'category'>; */
