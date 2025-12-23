@@ -1,6 +1,8 @@
 import { ensureElement } from "../../../utils/utils";
 import { categoryMap } from "../../../utils/constants";
 import { Card } from "./Card";
+import { ICardActions } from "../../../types";
+
 
 type CategoryKey = keyof typeof categoryMap;
 type TCardPreview = {
@@ -8,7 +10,8 @@ type TCardPreview = {
     image: string,
     title: string,
     price: number | null,
-    description: string
+    description: string,
+    button: string
 }
 
 
@@ -18,11 +21,17 @@ export class CardPreview extends Card<TCardPreview> {
     protected imageElement: HTMLImageElement;
     protected categoryElement: HTMLElement;
 
-    constructor(container: HTMLElement) {
+    constructor(container: HTMLElement, actions?: ICardActions) {
         super(container) 
 
-        this.buttonElement = ensureElement<HTMLButtonElement>('.card__button', this.container)
-        this.textElement = ensureElement<HTMLElement>('.card__text', this.container)
+        this.buttonElement = ensureElement<HTMLButtonElement>(
+            '.card__button',
+            this.container
+        )
+        this.textElement = ensureElement<HTMLElement>(
+            '.card__text',
+            this.container
+        )
         this.categoryElement = ensureElement<HTMLElement>(
             '.card__category',
             this.container
@@ -32,6 +41,10 @@ export class CardPreview extends Card<TCardPreview> {
             '.card__image',
             this.container
         );
+
+        if (actions?.onClick) {
+            this.container.addEventListener('click', actions.onClick);
+        }
     }
 
     set description(value: string) {
@@ -51,5 +64,9 @@ export class CardPreview extends Card<TCardPreview> {
     
     set image(value: string) {
         this.setImage(this.imageElement, value, this.title);
+    }
+
+    set button(value: string) {
+        this.buttonElement.textContent = value;
     }
 }
