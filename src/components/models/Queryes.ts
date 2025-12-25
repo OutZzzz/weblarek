@@ -1,4 +1,4 @@
-import { IBuyer, IProductResponse, OrderResponse, IApi } from "../../types";
+import { IProductResponse, OrderResponse, IApi, IOrder } from "../../types";
 
 export class Queryes {
 
@@ -10,7 +10,7 @@ export class Queryes {
         return await this.api.get<IProductResponse>('/product/');
     }
 
-    async postQuery(order: IBuyer): Promise<OrderResponse> {
+    async postQuery(order: IOrder): Promise<OrderResponse> {
         return await this.api.post('/order/', order);
     }
 }
