@@ -5,6 +5,7 @@ import { ICardActions } from "../../../types";
 
 
 type CategoryKey = keyof typeof categoryMap;
+
 type TCardPreview = {
     category: string,
     image: string,
@@ -63,7 +64,7 @@ export class CardPreview extends Card<TCardPreview> {
         }
     
     set image(value: string) {
-        this.setImage(this.imageElement, value, this.title);
+        this.setImage(this.imageElement, value);
     }
 
     set button(value: string) {

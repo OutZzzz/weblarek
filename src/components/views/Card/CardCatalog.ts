@@ -5,7 +5,7 @@ import { Card } from "./Card";
 
 
 type CategoryKey = keyof typeof categoryMap;
-/* export type TCardCatalog = Pick<IProduct, 'image' | 'category'>; */
+
 type TCardCatalog = {
     category: string,
     image: string,
@@ -48,7 +48,7 @@ export class CardCatalog extends Card<TCardCatalog> {
     }
 
     set image(value: string) {
-        this.setImage(this.imageElement, value, this.title);
+        this.setImage(this.imageElement, value);
     }
 
 }
