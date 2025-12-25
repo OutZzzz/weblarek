@@ -2,7 +2,7 @@ import { ensureElement } from "../../../utils/utils";
 import { Component } from "../../base/Component";
 
 
-export class Card<T> extends Component<T> {
+export abstract class Card<T> extends Component<T> {
     protected priceElement: HTMLElement;
     protected titleElement: HTMLElement;
 
@@ -13,12 +13,11 @@ export class Card<T> extends Component<T> {
         this.titleElement = ensureElement<HTMLElement>('.card__title', this.container)
     }
 
-    set price(value: Number) {
+    set price(value: number | null) {
         value === null ? this.priceElement.textContent = 'Бесценно' : this.priceElement.textContent = String(value)
     }
 
     set title(value: string) {
         this.titleElement.textContent = String(value)
     }
-
 }
