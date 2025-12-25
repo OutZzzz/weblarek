@@ -67,6 +67,15 @@ const modal = new Modal(events, modalContainer as HTMLElement)
 
 function generatePreview(item: IProduct) {
     const itemExist = productCart.checkItemExist(item.id);
+    const itemNullPrice = productModel.getItembyID(item.id)?.price === null
+
+    let buttonText: string = itemExist ? 'Удалить из корзины' : 'Купить'
+    let disabled: boolean = false
+
+    if (itemNullPrice) {
+        buttonText = 'Недоступно'
+        disabled =  true
+    }
 
     const preview = new CardPreview(
         cloneTemplate(
@@ -75,7 +84,7 @@ function generatePreview(item: IProduct) {
     );
 
     modal.render({
-        content: preview.render({button: itemExist ? 'Удалить из корзины' : ' Купить', ...item})
+        content: preview.render({button: {text: buttonText, disabled: disabled}, ...item})
     })
 
     modalContainer?.classList.add('modal_active')

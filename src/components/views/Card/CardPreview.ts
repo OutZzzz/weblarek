@@ -6,7 +6,12 @@ import { ICardActions, IProduct } from "../../../types";
 
 type CategoryKey = keyof typeof categoryMap;
 
-type TCardPreview = Omit<IProduct, 'id'> & { button: string }
+type TCardPreview = Omit<IProduct, 'id'> & { 
+    button: {
+        text: string; 
+        disabled: boolean
+    } 
+}
 
 export class CardPreview extends Card<TCardPreview> {
     protected buttonElement: HTMLButtonElement;
@@ -59,7 +64,8 @@ export class CardPreview extends Card<TCardPreview> {
         this.setImage(this.imageElement, value);
     }
 
-    set button(value: string) {
-        this.buttonElement.textContent = value;
+    set button(value: {text: string; disabled: boolean}) {
+        this.buttonElement.textContent = value.text;
+        this.buttonElement.disabled = value.disabled;
     }
 }
