@@ -1,7 +1,7 @@
 import { IBuyer, TPayment, ValidationErrors } from "../../types";
 
 export class BuyerData {
-    private payment: TPayment = '';
+    private payment: TPayment = null;
     private address: string = '';
     private phone: string = '';
     private email: string = '';
@@ -34,24 +34,24 @@ export class BuyerData {
     }
 
     clearData(): void {
-        this.payment = '';
+        this.payment = null;
         this.address = '';
         this.phone = '';
         this.email = '';
     }
 
-    validateData(): ValidationErrors {
+    validateData(fields: (keyof IBuyer)[]): ValidationErrors {
         const errors: ValidationErrors = {};
-        if (this.payment === '') {
+        if (fields.includes('payment') && this.payment === null) {
             errors.payment = 'Выберите способ оплаты'
         }
-        if (this.address === '') {
+        if (fields.includes('address') && this.address === '') {
             errors.address = 'Введите адрес'
         }
-        if (this.phone === '') {
+        if (fields.includes('phone') && this.phone === '') {
             errors.phone = 'Введите телефон'
         }
-        if (this.email === '') {
+        if (fields.includes('email') && this.email === '') {
             errors.email = 'Введите email'
         }
         return errors
