@@ -53,6 +53,7 @@ serverData.getQuery()
 //Контейнеры для отображения
 
 const galleryContainer = document.querySelector('.gallery')
+const modalWindow = document.querySelector('.modal__container')
 const modalContainer = document.getElementById('modal-container')
 const containerHeader = document.querySelector('.header__container')
 
@@ -238,6 +239,12 @@ function dataClear() {
 }
 
 // События
+
+modalContainer?.addEventListener('click', (event) => {
+    if (event.target === modalContainer) {
+        events.emit('modal:close')
+    }
+})
 
 header.render({ counter: productCart.getCartCount() })
 
