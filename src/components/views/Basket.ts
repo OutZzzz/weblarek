@@ -5,13 +5,14 @@ import { Component } from "../base/Component";
 
 type TBasket = {
     order: HTMLElement[];
-    totalPrice: number
+    totalPrice: number;
+    empty: boolean;
 }
 
 export class Basket extends Component<TBasket> {
     protected orderListElement: HTMLElement;
     protected totalPriceElement: HTMLElement;
-    protected buttonElement: HTMLElement;
+    protected buttonElement: HTMLButtonElement;
 
     constructor(container: HTMLElement, actions?: ICardActions) {
         super(container);
@@ -24,7 +25,7 @@ export class Basket extends Component<TBasket> {
             '.basket__price', 
             this.container
         )
-        this.buttonElement = ensureElement<HTMLElement>(
+        this.buttonElement = ensureElement<HTMLButtonElement>(
             '.basket__button',
             this.container
         )
@@ -41,4 +42,9 @@ export class Basket extends Component<TBasket> {
     set totalPrice(value: number) {
         this.totalPriceElement.textContent = String(value)
     }
+
+    set empty(value: boolean) {
+        this.buttonElement.disabled = value;
+    }
+
 }
