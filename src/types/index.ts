@@ -34,12 +34,22 @@ type TotalRecords = {
   total: number;
 }
 
+export interface IOrder extends IBuyer {
+  total: number
+  items: string[]
+}
+
 export type IProductResponse = TotalRecords & {
   items: IProduct[];
 }
 
 export type OrderResponse = TotalRecords & {
   id: string;
+}
+
+export type TFormValidate = {
+  error?: string;
+  valid: boolean;
 }
 
 export interface ICardActions {
