@@ -1,20 +1,12 @@
 import { ensureElement } from "../../../utils/utils";
 import { categoryMap } from "../../../utils/constants";
 import { Card } from "./Card";
-import { ICardActions } from "../../../types";
+import { ICardActions, IProduct } from "../../../types";
 
 
 type CategoryKey = keyof typeof categoryMap;
 
-type TCardPreview = {
-    category: string,
-    image: string,
-    title: string,
-    price: number | null,
-    description: string,
-    button: string
-}
-
+type TCardPreview = Omit<IProduct, 'id'> & { button: string }
 
 export class CardPreview extends Card<TCardPreview> {
     protected buttonElement: HTMLButtonElement;

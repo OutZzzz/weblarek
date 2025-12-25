@@ -6,13 +6,7 @@ import { Card } from "./Card";
 
 type CategoryKey = keyof typeof categoryMap;
 
-type TCardCatalog = {
-    category: string,
-    image: string,
-    title: string,
-    price: number | null
-}
-
+type TCardCatalog = Omit<IProduct, 'id' | 'description'>
 
 export class CardCatalog extends Card<TCardCatalog> {
     protected imageElement: HTMLImageElement;

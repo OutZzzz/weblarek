@@ -1,12 +1,8 @@
-import { ICardActions } from "../../../types";
+import { ICardActions, IProduct } from "../../../types";
 import { ensureElement } from "../../../utils/utils";
 import { Card } from "./Card"
 
-type TCardBasket = {
-    index: number,
-    title: string,
-    price: number | null
-}
+type TCardBasket = Pick<IProduct, 'title' | 'price'> & { index: number }
 
 export class CardBasket extends Card<TCardBasket> {
     protected indexElement: HTMLElement;
