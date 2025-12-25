@@ -1,9 +1,9 @@
 import { IBuyer, TFormValidate, TPayment } from "../../../types";
 import { ensureElement } from "../../../utils/utils";
-import { Component } from "../../base/Component";
+import { BaseForm } from "./Form";
 
 
-type FormOrderType = Omit<IBuyer, 'phone' | 'email'> & TFormValidate;
+type TFormOrderType = Omit<IBuyer, 'phone' | 'email'> & TFormValidate;
 
 interface IFormActions {
     onSubmit?: () => void;
@@ -11,29 +11,20 @@ interface IFormActions {
     onAddressChange?: (value: string) => void;
 }
 
-export class FormOrder extends Component<FormOrderType> {
+export class FormOrder extends BaseForm<TFormOrderType> {
     protected paymentButtonElement: HTMLButtonElement[];
     protected addressInputElement: HTMLInputElement;
-    protected orderButtonElement: HTMLButtonElement;
-    protected formErorrsElement: HTMLElement;
+    protected actions: IFormActions;
 
-    constructor(container: HTMLElement, actions?: IFormActions) {
+    constructor(container: HTMLElement, actions: IFormActions) {
         super(container)
+
+        this.actions = actions;
 
         this.paymentButtonElement = Array.from(
             this.container.querySelectorAll<HTMLButtonElement>(
                 '.order__buttons button'
             )
-        )
-
-        this.orderButtonElement = ensureElement<HTMLButtonElement>(
-            '.order__button', 
-            this.container
-        )
-
-        this.formErorrsElement = ensureElement<HTMLElement>(
-            '.form__errors', 
-            this.container
         )
 
         this.addressInputElement = ensureElement<HTMLInputElement>(
@@ -63,6 +54,10 @@ export class FormOrder extends Component<FormOrderType> {
         }
     }
 
+    protected onSubmit() {
+        this.actions.onSubmit!();
+    }
+
     set payment(value: TPayment) {
         this.paymentButtonElement.forEach((button) => {
             button.classList.toggle(
@@ -74,14 +69,6 @@ export class FormOrder extends Component<FormOrderType> {
 
     set address(value: string){
         this.addressInputElement.value = value
-    }
-
-    set error(value: string) {
-        this.formErorrsElement.textContent = value
-    }
-
-    set valid(value: boolean) {
-        this.orderButtonElement.disabled = !value
     }
 
 }
