@@ -17,7 +17,7 @@ import { Basket } from './components/views/Basket';
 import { IOrder, IProduct, TPayment, ValidationErrors } from './types';
 import { FormOrder } from './components/views/Form/FormOrder';
 import { FormContacts } from './components/views/Form/FormContacts';
-import { OrderSuccess } from './components/views/Form/OrderSuccess';
+import { OrderSuccess } from './components/views/OrderSuccess';
 
 
 // Модели данных
@@ -161,7 +161,6 @@ events.on('basket:open', () => {
 })
 
 /* ----------- События Оформления 1 этап -------------- */
-
 
 function generateOrder() {
     const orderForm = new FormOrder(
