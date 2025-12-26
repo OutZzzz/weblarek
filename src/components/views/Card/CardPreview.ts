@@ -33,12 +33,12 @@ export class CardPreview extends Card<TCardPreview> {
         this.categoryElement = ensureElement<HTMLElement>(
             '.card__category',
             this.container
-        );
+        )
 
         this.imageElement = ensureElement<HTMLImageElement>(
             '.card__image',
             this.container
-        );
+        )
 
         if (actions?.onClick) {
             this.container.addEventListener('click', actions.onClick);

@@ -13,17 +13,17 @@ export class CardCatalog extends Card<TCardCatalog> {
     protected categoryElement: HTMLElement;
 
     constructor(container: HTMLElement, actions?: ICardActions) {
-        super(container);
+        super(container)
 
         this.categoryElement = ensureElement<HTMLElement>(
             '.card__category',
             this.container
-        );
+        )
 
         this.imageElement = ensureElement<HTMLImageElement>(
             '.card__image',
             this.container
-        );
+        )
 
         if (actions?.onClick) {
             this.container.addEventListener('click', actions.onClick);
@@ -37,7 +37,7 @@ export class CardCatalog extends Card<TCardCatalog> {
             this.categoryElement.classList.toggle(
                 categoryMap[key as CategoryKey],
                 key === value
-            );
+            )
         }
     }
 
