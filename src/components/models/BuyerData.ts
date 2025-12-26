@@ -1,4 +1,5 @@
 import { IBuyer, TPayment, ValidationErrors } from "../../types";
+import { EventEmitter } from "../base/Events";
 
 export class BuyerData {
     private payment: TPayment = null;
@@ -6,22 +7,26 @@ export class BuyerData {
     private phone: string = '';
     private email: string = '';
     
-    constructor() {}
+    constructor(private events: EventEmitter) {}
 
     savePayment(data: TPayment): void {
         this.payment = data
+        this.events.emit('buyer:changed', this.getAllData());
     }
 
     saveAddress(data: string): void {
         this.address = data
+        this.events.emit('buyer:changed', this.getAllData());
     }
 
     savePhone(data: string): void {
         this.phone = data
+        this.events.emit('buyer:changed', this.getAllData());
     }
 
     saveEmail(data: string): void {
         this.email = data
+        this.events.emit('buyer:changed', this.getAllData());
     }
 
     getAllData(): IBuyer {
@@ -38,6 +43,7 @@ export class BuyerData {
         this.address = '';
         this.phone = '';
         this.email = '';
+        this.events.emit('buyer:changed', this.getAllData());
     }
 
     validateData(fields: (keyof IBuyer)[]): ValidationErrors {

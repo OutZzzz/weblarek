@@ -1,4 +1,4 @@
-import { ICardActions, IProduct } from "../../types"
+import { ICardActions } from "../../types"
 import { ensureElement } from "../../utils/utils";
 import { Component } from "../base/Component";
 
