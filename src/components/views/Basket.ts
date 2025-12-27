@@ -6,7 +6,7 @@ import { Component } from "../base/Component";
 type TBasket = {
     order: HTMLElement[];
     totalPrice: number;
-    empty: boolean;
+    buttonDisable: boolean;
 }
 
 export class Basket extends Component<TBasket> {
@@ -40,10 +40,10 @@ export class Basket extends Component<TBasket> {
     }
 
     set totalPrice(value: number) {
-        this.totalPriceElement.textContent = String(value)
+        this.totalPriceElement.textContent = String(`${value} синапсов`)
     }
 
-    set empty(value: boolean) {
+    set buttonDisable(value: boolean) {
         this.buttonElement.disabled = value;
     }
 

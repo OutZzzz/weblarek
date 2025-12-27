@@ -5,8 +5,8 @@ import { Card } from "./Card"
 type TCardBasket = Pick<IProduct, 'title' | 'price'> & { index: number }
 
 export class CardBasket extends Card<TCardBasket> {
-    protected indexElement: HTMLElement;
-    protected buttonElement: HTMLButtonElement;
+    private indexElement: HTMLElement;
+    private buttonElement: HTMLButtonElement;
 
     constructor(container: HTMLElement, actions?: ICardActions) {
         super(container);

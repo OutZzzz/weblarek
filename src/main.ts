@@ -6,7 +6,7 @@ import { Queryes } from './components/models/Queryes';
 import './scss/styles.scss';
 import { API_URL, CDN_URL } from './utils/constants';
 import { CardCatalog } from './components/views/Card/CardCatalog';
-import { cloneTemplate } from './utils/utils';
+import { cloneTemplate, ensureElement } from './utils/utils';
 import { Header } from './components/views/Header';
 import { EventEmitter } from './components/base/Events';
 import { Modal } from './components/views/Modal';
@@ -42,16 +42,17 @@ serverData.getQuery()
 
 //Контейнеры для отображения
 
-const galleryContainer = document.querySelector('.gallery')
-const modalContainer = document.getElementById('modal-container')
-const containerHeader = document.querySelector('.header__container')
+const galleryContainer = ensureElement<HTMLElement>('.gallery')
+const modalContainer = ensureElement<HTMLElement>('.modal')
+const containerHeader = ensureElement<HTMLElement>('.header__container')
+const cardCatalogTemplate = document.getElementById('card-catalog') as HTMLTemplateElement
 
 // Объекты
 
 
-const gallery = new Gallery(galleryContainer as HTMLElement)
-const header = new Header(events, containerHeader as HTMLElement)
-const modal = new Modal(events, modalContainer as HTMLElement)
+const gallery = new Gallery(galleryContainer)
+const header = new Header(events, containerHeader)
+const modal = new Modal(events, modalContainer)
 
 // События
 
@@ -60,14 +61,8 @@ const modal = new Modal(events, modalContainer as HTMLElement)
 let currentModal: 'order' | 'contacts' | 'basket' | 'success' | null;
 
 events.on('modal:close', () => {
-    modalContainer?.classList.remove('modal_active')
+    modal.close();
     currentModal = null;
-})
-
-modalContainer?.addEventListener('click', (event) => {
-    if (event.target === modalContainer) {
-        events.emit('modal:close')
-    }
 })
 
 /* ----------- События каталога -------------- */
@@ -75,11 +70,8 @@ modalContainer?.addEventListener('click', (event) => {
 events.on('catalog:changed', () => {
     const itemCards = productModel.getCatalogItems().map((item) => {
             const card = new CardCatalog(
-                cloneTemplate(
-                    document.getElementById('card-catalog') as HTMLTemplateElement
-                ), {
-                    onClick: () => events.emit('card:select', item),
-                });
+                cloneTemplate(cardCatalogTemplate), 
+                { onClick: () => events.emit('card:select', item),});
             return card.render(item);
         })
     gallery.render({ catalog: itemCards });
@@ -109,7 +101,7 @@ events.on('card:select', (item: IProduct) => {
     modal.render({
         content: preview.render({button: {text: buttonText, disabled: disabled}, ...item})
     })
-    modalContainer?.classList.add('modal_active')
+    modal.open()
 })
 
 events.on('basket:add', (item: IProduct) => {
@@ -148,11 +140,11 @@ function generateBasket() {
         content: basket.render({
             order: orderCards,
             totalPrice: productCart.getAllPrices(),
-            empty: productCart.getCartCount() === 0
+            buttonDisable: productCart.getCartCount() === 0
         })
     })
 
-    modalContainer?.classList.add('modal_active')
+    modal.open()
 }
 
 events.on('basket:open', () => {
@@ -168,18 +160,13 @@ function generateOrder() {
         {
             onPaymentChange: (method) => buyer.savePayment(method),
             onAddressChange: (value) => buyer.saveAddress(value),
-            onSubmit: () => {
-                const errors = buyer.validateData(['payment', 'address']);
-                if (Object.keys(errors).length === 0) {
-                    events.emit('order:submit');
-                }
-            }
+            onSubmit: () => { events.emit('order:submit') }
         }
     )
     return orderForm
 }
 
-function OrderErrors(errors: ValidationErrors): string {
+function orderErrors(errors: ValidationErrors): string {
     return (errors.payment || errors.address || '')
 }
 
@@ -199,18 +186,13 @@ function generateContacts() {
         {
             onEmailChange: (value) => buyer.saveEmail(value),
             onPhoneChange: (value) => buyer.savePhone(value),
-            onSubmit: () => {
-                const errors = buyer.validateData(['email', 'phone']);
-                if (Object.keys(errors).length === 0) {
-                    events.emit('contacts:submit');
-                }
-            }
+            onSubmit: () => { events.emit('contacts:submit'); }
         }
     )
     return orderContacts
 }
 
-function ContactsErrors(errors: ValidationErrors): string {
+function contactsErrors(errors: ValidationErrors): string {
     return (errors.email || errors.phone || '')
 }
 
@@ -233,7 +215,7 @@ events.on('buyer:changed', () => {
                 payment: buyer.getAllData().payment as TPayment,
                 address: buyer.getAllData().address,
                 valid: Object.keys(errorsOrder).length === 0,
-                error: OrderErrors(errorsOrder)
+                error: orderErrors(errorsOrder)
             })
             break
         case 'contacts':
@@ -241,7 +223,7 @@ events.on('buyer:changed', () => {
                 email: buyer.getAllData().email,
                 phone: buyer.getAllData().phone,
                 valid: Object.keys(errorsContacts).length === 0,
-                error: ContactsErrors(errorsContacts)
+                error: contactsErrors(errorsContacts)
             })
             break
     }
@@ -277,13 +259,16 @@ events.on('contacts:submit', () => {
         { onClick: () => events.emit('modal:close') }
     );
 
-    modal.render({
-        content: order.render(
-            { description: `Списано ${productCart.getAllPrices()} синапсов` }
-        )
-    })
+    
     serverData.postQuery(orderData())
         .then((response) => {console.log(response)})
         .catch(error => console.error('Ошибка при отправке: ', error))
-        .finally(() => dataClear())
+        .finally(() => {
+            modal.render({
+                content: order.render(
+                    { description: `Списано ${productCart.getAllPrices()} синапсов` }
+                )
+            });
+            dataClear();
+        })
 })

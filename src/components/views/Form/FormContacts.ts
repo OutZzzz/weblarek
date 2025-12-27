@@ -6,15 +6,15 @@ import { BaseForm } from "./Form";
 type TFormContactsType = Omit<IBuyer, 'payment' | 'address'> & TFormValidate;
 
 interface IFormActions {
-    onSubmit?: () => void;
+    onSubmit: () => void;
     onEmailChange?: (value: string) => void;
     onPhoneChange?: (value: string) => void;
 }
 
 export class FormContacts extends BaseForm<TFormContactsType> {
-    protected emailInputElement: HTMLInputElement;
-    protected phoneInputElement: HTMLInputElement;
-    protected actions: IFormActions;
+    private emailInputElement: HTMLInputElement;
+    private phoneInputElement: HTMLInputElement;
+    private actions: IFormActions;
 
     constructor(container: HTMLElement, actions: IFormActions){
         super(container);
@@ -45,7 +45,7 @@ export class FormContacts extends BaseForm<TFormContactsType> {
     }
 
     protected onSubmit() {
-        this.actions.onSubmit!();
+        this.actions.onSubmit();
     }
 
     set email(value: string) {

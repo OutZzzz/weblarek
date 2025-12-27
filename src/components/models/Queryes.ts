@@ -11,6 +11,6 @@ export class Queryes {
     }
 
     async postQuery(order: IOrder): Promise<OrderResponse> {
-        return await this.api.post('/order/', order);
+        return await this.api.post<OrderResponse>('/order/', order);
     }
 }

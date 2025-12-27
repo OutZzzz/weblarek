@@ -14,10 +14,10 @@ type TCardPreview = Omit<IProduct, 'id'> & {
 }
 
 export class CardPreview extends Card<TCardPreview> {
-    protected buttonElement: HTMLButtonElement;
-    protected textElement: HTMLElement;
-    protected imageElement: HTMLImageElement;
-    protected categoryElement: HTMLElement;
+    private buttonElement: HTMLButtonElement;
+    private textElement: HTMLElement;
+    private imageElement: HTMLImageElement;
+    private categoryElement: HTMLElement;
 
     constructor(container: HTMLElement, actions?: ICardActions) {
         super(container) 

@@ -26,7 +26,7 @@ export class Catalog {
     }
 
     getItembyID(id: string): IProduct | undefined {
-        const item: IProduct | undefined = this.catalogItems.find((item) => item.id === id);
+        const item = this.catalogItems.find((item) => item.id === id);
         return item
     }
 }
